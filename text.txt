@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Brian ❤️ Evelyne</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #ff758c, #ff7eb3);
+      font-family: Arial, sans-serif;
+      color: white;
+      overflow: hidden;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.15);
+      padding: 25px;
+      border-radius: 20px;
+      max-width: 360px;
+      width: 100%;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 2;
+    }
+
+    img {
+      width: 100%;
+      border-radius: 15px;
+      margin-bottom: 15px;
+    }
+
+    button {
+      padding: 12px 22px;
+      font-size: 15px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      margin: 8px;
+    }
+
+    #yesBtn {
+      background: #ff2f68;
+      color: white;
+    }
+
+    #noBtn {
+      background: white;
+      color: #ff2f68;
+      position: absolute;
+    }
+
+    #letterBtn {
+      background: transparent;
+      border: 2px solid white;
+      color: white;
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      justify-content: center;
+      align-items: center;
+      z-index: 5;
+    }
+
+    .letter {
+      background: white;
+      color: #333;
+      padding: 25px;
+      border-radius: 15px;
+      max-width: 340px;
+      text-align: left;
+      animation: pop 0.4s ease;
+    }
+
+    .letter h2 {
+      text-align: center;
+      color: #ff2f68;
+    }
+
+    .close button {
+      background: #ff2f68;
+      color: white;
+      margin-top: 15px;
+    }
+
+    @keyframes pop {
+      from { transform: scale(0.7); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .heart {
+      position: absolute;
+      font-size: 20px;
+      animation: float 5s linear infinite;
+      opacity: 0.8;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(100vh); }
+      100% { transform: translateY(-10vh); opacity: 0; }
+    }
+
+    .music-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(255,255,255,0.9);
+      color: #ff2f68;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 20px;
+      cursor: pointer;
+      border: none;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Music -->
+  <audio id="bgMusic" loop>
+    <source src="love.mp3" type="audio/mpeg">
+  </audio>
+
+  <button class="music-btn" onclick="toggleMusic()">🎵</button>
+
+  <div class="card">
+    <img src="us.jpg" alt="Brian and Evelyne">
+
+    <h2>Evelyne ❤️</h2>
+    <p>Every moment with you is my favorite memory.</p>
+
+    <button id="letterBtn" onclick="openLetter()">Read My Love Letter 💌</button>
+
+    <p>Will you be my Valentine? 💕</p>
+
+    <button id="yesBtn" onclick="sayYes()">Yes 💖</button>
+    <button id="noBtn" onmouseover="moveNo()">No 🙈</button>
+  </div>
+
+  <!-- Love Letter -->
+  <div class="modal" id="letterModal">
+    <div class="letter">
+      <h2>My Love 💕</h2>
+      <p>
+        From the moment you came into my life,  
+        everything changed for the better.  
+        Your smile feels like home,  
+        your love is my peace.
+        <br><br>
+        I promise honesty, effort, laughter,  
+        and a love that grows every day.
+        <br><br>
+        I choose you. Always. ❤️
+      </p>
+      <p style="text-align:right;"><strong>— Brian</strong></p>
+
+      <div class="close">
+        <button onclick="closeLetter()">Close 💕</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const music = document.getElementById("bgMusic");
+    let isPlaying = false;
+
+    function toggleMusic() {
+      if (isPlaying) {
+        music.pause();
+      } else {
+        music.play();
+      }
+      isPlaying = !isPlaying;
+    }
+
+    function openLetter() {
+      document.getElementById("letterModal").style.display = "flex";
+      if (!isPlaying) {
+        music.play();
+        isPlaying = true;
+      }
+    }
+
+    function closeLetter() {
+      document.getElementById("letterModal").style.display = "none";
+    }
+
+    function sayYes() {
+      document.body.innerHTML = `
+        <div style="text-align:center;color:white;">
+          <h1>She Said YES!!! 💘😍</h1>
+          <p style="font-size:20px;">
+            Happy Valentine’s Day Evelyne ❤️<br>
+            Love always,<br><strong>Brian</strong>
+          </p>
+        </div>
+      `;
+    }
+
+    function moveNo() {
+      const noBtn = document.getElementById("noBtn");
+      noBtn.style.left = Math.random() * (window.innerWidth - 100) + "px";
+      noBtn.style.top = Math.random() * (window.innerHeight - 50) + "px";
+    }
+
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.innerHTML = "❤️";
+      heart.style.left = Math.random() * window.innerWidth + "px";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 5000);
+    }
+
+    setInterval(createHeart, 300);
+  </script>
+
+</body>
+</html>
